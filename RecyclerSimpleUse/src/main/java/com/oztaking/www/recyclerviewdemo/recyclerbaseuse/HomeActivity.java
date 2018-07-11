@@ -1,4 +1,4 @@
-package com.oztaking.www.recyclerviewdemo;
+package com.oztaking.www.recyclerviewdemo.recyclerbaseuse;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
+import com.oztaking.www.recyclerviewdemo.R;
 
 import java.util.ArrayList;
 import java.util.List;

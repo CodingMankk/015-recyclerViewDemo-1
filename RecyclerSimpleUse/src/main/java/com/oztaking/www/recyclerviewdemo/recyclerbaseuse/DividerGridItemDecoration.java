@@ -1,4 +1,4 @@
-package com.oztaking.www.recyclerviewdemo;
+package com.oztaking.www.recyclerviewdemo.recyclerbaseuse;
 
 import android.content.Context;
 import android.content.res.TypedArray;

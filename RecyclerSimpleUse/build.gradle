@@ -31,4 +31,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.0.1'
 
     compile 'com.orhanobut:logger:1.15'
+
+    compile 'com.facebook.fresco:fresco:0.12.0'
 }

@@ -1,4 +1,4 @@
-package com.oztaking.www.recyclerviewdemo;
+package com.oztaking.www.recyclerviewdemo.recyclerbaseuse;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.oztaking.www.recyclerviewdemo.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextureView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#6CC4B8"
+        android:gravity="center"
+        android:text="图片长按多选"
+        android:textColor="#fff" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/multiSelector_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn"
+        android:layout_below="@id/title">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:text="选中的数据"
+        android:textColor="#fff"
+        android:visibility="gone" />
+
+</RelativeLayout>
