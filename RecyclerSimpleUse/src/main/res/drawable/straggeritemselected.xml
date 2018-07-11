@@ -3,7 +3,11 @@
 
     <!--<item android:state_checked="true" android:drawable="@drawable/actionbar_add_icon"></item>-->
     <!--<item android:drawable="@drawable/divider_bg_select"></item>-->
-    <item android:state_checked="true" android:drawable="@color/colorPrimaryDark"/>
+
+    <!--<item android:state_checked="true" android:drawable="@color/colorPrimaryDark"/>-->
+    <!--<item android:color="#bbccbbcc"/>-->
+
+    <item android:state_selected="true" android:drawable="@drawable/linearlayoutbg"/>
     <item android:color="#bbccbbcc"/>
 
 

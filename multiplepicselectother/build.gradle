@@ -3,13 +3,16 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
+
     defaultConfig {
-        applicationId "com.oztaking.www.recyclerviewdemo"
-        minSdkVersion 16
+        applicationId "com.oztaking.www.multiplepicselectother"
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -28,9 +31,11 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 
+    //fresco
+//    compile 'com.facebook.fresco:fresco:1.7.1'
     compile 'com.android.support:recyclerview-v7:25.0.1'
 
-    compile 'com.orhanobut:logger:1.15'
-
     compile 'com.facebook.fresco:fresco:0.12.0'
+
+
 }

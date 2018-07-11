@@ -33,6 +33,10 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
     private List<String> mList = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
 
+    private onItemClickListener mListener;
+
+//    private boolean showCheckBox;
+
     /**
      * 防止Checkbox错乱 做setTag getTag操作
      */
@@ -42,12 +46,23 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
      */
     private Uri uri;
 
-    public RecyclerViewMultiSelectorAdapter(Context context, int screenWidth, List<String> list) {
+    public RecyclerViewMultiSelectorAdapter(Context context, List<String> list,int screenWidth) {
         this.mContext = context;
         this.screen = screenWidth;
         this.mList = list;
         mLayoutInflater = LayoutInflater.from(context);
+        //frasco 使用
+//        uri = Uri.parse("res:///" + R.drawable.tomcat);
+        uri = Uri.parse("res:///" + R.mipmap.imgv_fitness_girl);
+    }
 
+    public boolean isShowCheckBox(){
+        return mShowCheckBox;
+    }
+
+    public void setShowCheckBox(boolean showCheckBox) {
+
+        this.mShowCheckBox = showCheckBox;
     }
 
     @Override
@@ -57,7 +72,7 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
     }
 
     @Override
-    public void onBindViewHolder(final Holder holder, int position) {
+    public void onBindViewHolder(final Holder holder, final int position) {
         holder.mCBItem.setTag(position);
 
         mParams = (GridLayoutManager.LayoutParams)holder.mRllayout.getLayoutParams();
@@ -80,6 +95,7 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
                 if (mShowCheckBox){
                     holder.mCBItem.setChecked(!holder.mCBItem.isChecked());
                 }
+                mListener.onItemClick(v,position);
 
             }
         });
@@ -87,7 +103,7 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
         holder.mRllayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return
+                return mListener.onItemLongClick(v,position);
             }
         });
 
@@ -104,14 +120,28 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
         });
 
         holder.mSimpleDraweeView.setImageURI(uri);
-        holder.mSimpleDraweeView.setImageResource(R.drawable.tomcat);
+//        holder.mSimpleDraweeView.setImageResource(R.drawable.tomcat);
 
     }
+
 
     @Override
     public int getItemCount() {
-        return mList.size();
+
+        //        return mList.size();
+        return 20;
+
     }
+
+    public void setListener(onItemClickListener listener) {
+        this.mListener = listener;
+    }
+
+    public interface onItemClickListener{
+        public void onItemClick(View view, int pos);
+        public boolean onItemLongClick(View view, int pos);
+    }
+
 
     class Holder extends RecyclerView.ViewHolder{
 
@@ -122,7 +152,7 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
         public Holder(View itemView) {
             super(itemView);
             mSimpleDraweeView = itemView.findViewById(R.id.item_Image_multiSelect);
-            mCBItem = itemView.findViewById(R.id.cb_item);
+            mCBItem = itemView.findViewById(R.id.cb1_item);
             mRllayout = itemView.findViewById(R.id.rl_layout);
 
         }

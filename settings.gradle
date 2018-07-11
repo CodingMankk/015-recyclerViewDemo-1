@@ -1,1 +1,1 @@
-include ':RecyclerSimpleUse'
+include ':RecyclerSimpleUse', ':multiplepicselectother'
