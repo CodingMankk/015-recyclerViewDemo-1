@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_add"
+        android:icon="@drawable/actionbar_add_icon"
+        android:title="add"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom">
+
+    </item>
+
+    <item
+        android:id="@+id/action_remove"
+        android:icon="@drawable/actionbar_delete_icon"
+        android:title="add"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom">
+    </item>
+
+
+</menu>
