@@ -7,7 +7,11 @@
         android:drawable="@android:color/transparent"/>
 
     <!--点击后的颜色-->
+    <!--<item app:state_click="true"-->
+        <!--android:drawable="@color/colorAccent"/>-->
+
+    <!--点击后的颜色-->
     <item app:state_click="true"
-        android:drawable="@color/colorAccent"/>
+          android:drawable="@drawable/rect"/>
 
 </selector>
