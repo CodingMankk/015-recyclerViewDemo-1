@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @function: item的多选
+ * @function: 长按出现item的多选checkBox，选中的item的背景会发生变化，点击button“选中的数据”
+ * 会将选中的item的位置Toast出来，并取消checkBox和item背景
  *
  * [思路]
  *
@@ -70,6 +71,9 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
             public void onClick(View v) {
                 Toast.makeText(RecyclerViewMultiSelectorActivity.this, checkList.toString(), Toast.LENGTH_SHORT)
                         .show();
+                mAdapter.setShowCheckBox(false);
+                mAdapter.setShowRelativityBackground(false);
+                mAdapter.notifyDataSetChanged();
             }
         });
 
@@ -99,10 +103,12 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
                 if (!isShowCheck) {  //0
 //                    mBtn.setVisibility(View.GONE);
                     mAdapter.setShowCheckBox(false); //长按不显示CheckBox
+                    mAdapter.setShowRelativityBackground(false);
                     mAdapter.notifyDataSetChanged();
                     checkList.clear();
                 } else {
                     mAdapter.setShowCheckBox(true);
+                    mAdapter.setShowRelativityBackground(true);
                     mAdapter.notifyDataSetChanged();
 //                    mBtn.setVisibility(View.VISIBLE);
                 }

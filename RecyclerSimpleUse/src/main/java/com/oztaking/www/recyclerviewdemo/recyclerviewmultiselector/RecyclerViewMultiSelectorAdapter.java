@@ -27,10 +27,12 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
 
     private Context mContext;
     private boolean mShowCheckBox;
+    private boolean mShowRelativity;
     private int screen;
     private GridLayoutManager.LayoutParams mParams;
-    private List<String> mList = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
+
+    private List<String> mList = new ArrayList<>();
 
     private onItemClickListener mListener;
 
@@ -40,7 +42,7 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
      * 防止Checkbox错乱 做setTag getTag操作
      */
     private SparseBooleanArray mCheckStates = new SparseBooleanArray(); //存储的是存储的是CheckBox选中的状态
-    private SparseBooleanArray mRlStates = new SparseBooleanArray(); //存储的是存储的是CheckBox选中的状态
+    private SparseBooleanArray mRlStates = new SparseBooleanArray(); //存储的是存储的是Releativity选中的状态
     /**
      * frasco 使用
      */
@@ -63,6 +65,11 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
     public void setShowCheckBox(boolean showCheckBox) {
 
         this.mShowCheckBox = showCheckBox;
+    }
+
+
+    public void setShowRelativityBackground(boolean showRelativity){
+        this.mShowRelativity = showRelativity;
     }
 
     @Override
@@ -93,19 +100,43 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
             mCheckStates.clear(); //list状态清除
         }
 
+        if (mShowRelativity){
+            holder.mRllayout.setLayoutClick(mRlStates.get(position,false));
+        }else{
+            holder.mRllayout.setLayoutClick(false);
+            mRlStates.clear();
+        }
+
+
         //
         holder.mRllayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mShowCheckBox){
+                if (mShowCheckBox && mShowRelativity){
                     //点击之后对是否选中切换显示
-                    holder.mCBItem.setChecked(!holder.mCBItem.isChecked());
-                    holder.mRllayout.setLayoutClick(!holder.mRllayout.isLayoutClick());
-                }else{
-                    holder.mRllayout.setLayoutClick(false);
+                    boolean checked = holder.mCBItem.isChecked();
+                    if (checked == true){
+                        checked = false;
+                        holder.mRllayout.setLayoutClick(false);
+                        mRlStates.put(position,false);
+                    }else {
+                        checked = true;
+                        holder.mRllayout.setLayoutClick(true);
+//                        mRlStates.put(position,true);
+                        mRlStates.delete(position);
+                    }
+                    holder.mCBItem.setChecked(checked);
+//                    holder.mCBItem.setChecked(!holder.mCBItem.isChecked());
+//                    holder.mRllayout.setLayoutClick(!holder.mRllayout.isLayoutClick());
+//                    holder.mRllayout.setLayoutClick(true);
                 }
 
-                holder.mRllayout.setLayoutClick(false);
+
+//                else{
+//                    holder.mRllayout.setLayoutClick(false);
+//                }
+
+//                holder.mRllayout.setLayoutClick(false);
 //                    holder.mRllayout.setLayoutClick(false);
 
                 mListener.onItemClick(v,position); //返回数据
@@ -126,9 +157,9 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
             @Override
             public boolean onLongClick(View v) {
 //                holder.mRllayout.setLayoutClick(false);
-                if (!isShowCheckBox()){
-                    holder.mRllayout.setLayoutClick(false);
-                }
+//                if (!isShowCheckBox()){
+//                    holder.mRllayout.setLayoutClick(false);
+//                }
                 return mListener.onItemLongClick(v,position); //返回数据
             }
         });
@@ -145,7 +176,6 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
                     mCheckStates.put(pos,true); //点击选中，则加入到list表
                 }else {
                     mCheckStates.delete(pos); //未点击选中，则从列表中删除
-
                 }
             }
         });
