@@ -1,7 +1,6 @@
 package com.oztaking.www.recyclerviewdemo.recyclerviewmultiselector;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,7 +17,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @function:
+ * @function: item的多选
+ *
+ * [思路]
+ *
+ * 单/长按点击事件的对象：item中的根部局RelativeLayout
+ *      在Adapter中对该事件进行监听，并处理；
+ *      单击onClick事件的处理：【1】切换CheckBox的状态【2】调用onItemClickListener中的onClick方法，回传数据；
+ *      长按onLongClick事件的处理：【1】调用onItemLongClick，回传数据；
+ *      ============
+ *    首先说明：在Activity中维护了“checkList”：记录单击的CheckBox的位置
+ *      在Acitivity中点击事件的处理：
+ *      onItemClick：checkList数据的更新
+ *      onItemLongClick：CheckBox的显示切换
+ * ---------------------
+ *
+ * 【说明】
+ * 在Adapter中：维护了SparseBooleanArray mCheckStates表，记录checkBox点击的pos与isChecked状态的对应关系；
+ *
  */
 
 public class RecyclerViewMultiSelectorActivity extends Activity{
@@ -29,7 +45,8 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
     private RecyclerViewMultiSelectorAdapter mAdapter;
 //    private RecAdapter mAdapter;
 
-    private List<String> checkList;
+    private List<String> checkList; //存储的是CheckBox选中的位置
+
     private boolean isShowCheck;
 
     private RelativeLayout mRllayout;
@@ -56,14 +73,18 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
             }
         });
 
+        /**
+         * 功能：对item点击之后，checkList数据的更新
+         */
         mAdapter.setListener(new RecyclerViewMultiSelectorAdapter.onItemClickListener() {
             @Override
             public void onItemClick(View view, int pos) {
 //                Toast.makeText(RecyclerViewMultiSelectorActivity.this, pos + "", Toast.LENGTH_SHORT)
 //                        .show();
-                Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.linearlayoutbg);
-                mRllayout.setBackground(drawable);
+//                Drawable drawable = getApplicationContext().getResources().getDrawable(R.drawable.linearlayoutbg);
+//                mRllayout.setBackground(drawable);
 
+                //控制checkBoxlist的数据的添加/删除
                 if (checkList.contains(String.valueOf(pos))) {
                     checkList.remove(String.valueOf(pos));
                 } else {
@@ -75,27 +96,25 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
             public boolean onItemLongClick(View view, int pos) {
 //                Toast.makeText(RecyclerViewMultiSelectorActivity.this, "长按" + pos, Toast.LENGTH_SHORT)
 //                        .show();
-                if (isShowCheck) {
-                    mBtn.setVisibility(View.GONE);
-                    mAdapter.setShowCheckBox(false);
-
-
-
+                if (!isShowCheck) {  //0
+//                    mBtn.setVisibility(View.GONE);
+                    mAdapter.setShowCheckBox(false); //长按不显示CheckBox
                     mAdapter.notifyDataSetChanged();
                     checkList.clear();
                 } else {
                     mAdapter.setShowCheckBox(true);
                     mAdapter.notifyDataSetChanged();
-                    mBtn.setVisibility(View.VISIBLE);
+//                    mBtn.setVisibility(View.VISIBLE);
                 }
-                isShowCheck = !isShowCheck;
+                isShowCheck = !isShowCheck; //1
+
                 return false;
+//                return true;
             }
         });
     }
 
     private void initData() {
-
         //获取的屏幕的宽度
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -103,9 +122,6 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
 
         mListPic = new ArrayList<>();
         mListPic.add("1");
-//        for (int i=0; i<20; i++){
-//            mListPic.add(R.drawable.tomcat);
-//        }
 
         checkList = new ArrayList<>();
 
@@ -117,19 +133,11 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
         gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
-
     }
 
     private void initView() {
         mRecyclerView = findViewById(R.id.multiSelector_rv);
         mBtn = (Button) findViewById(R.id.Btn);
         mRllayout = (RelativeLayout) findViewById(R.id.rl_layout);
-
     }
-
-
-
-
-
-
 }

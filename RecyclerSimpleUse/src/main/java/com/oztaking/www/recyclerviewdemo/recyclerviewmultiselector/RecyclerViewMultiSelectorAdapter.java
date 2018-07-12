@@ -40,7 +40,7 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
     /**
      * 防止Checkbox错乱 做setTag getTag操作
      */
-    private SparseBooleanArray mCheckStates = new SparseBooleanArray();
+    private SparseBooleanArray mCheckStates = new SparseBooleanArray(); //存储的是存储的是CheckBox选中的状态
     /**
      * frasco 使用
      */
@@ -79,13 +79,16 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
         mParams.width = screen/3;
         mParams.height = screen/3;
 
-        if (mShowCheckBox){
+        /**
+         *  注意：在长按的时候，单个checkbox的状态没有必要设置，即使设置CheckStates中的数据为空
+         */
+        if (mShowCheckBox){ //如果是长按：此值由activity传入设置
             holder.mCBItem.setVisibility(View.VISIBLE);
-            holder.mCBItem.setChecked(mCheckStates.get(position,false));
+//            holder.mCBItem.setChecked(mCheckStates.get(position,false)); //从列表中获取状态并设置状态
         }else{
             holder.mCBItem.setVisibility(View.GONE);
-            holder.mCBItem.setChecked(false);
-            mCheckStates.clear();;
+//            holder.mCBItem.setChecked(false);//设置未选中状态
+            mCheckStates.clear(); //list状态清除
         }
 
         //
@@ -93,28 +96,40 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
             @Override
             public void onClick(View v) {
                 if (mShowCheckBox){
+                    //点击之后对是否选中切换显示
                     holder.mCBItem.setChecked(!holder.mCBItem.isChecked());
                 }
-                mListener.onItemClick(v,position);
-
+                mListener.onItemClick(v,position); //返回数据
             }
         });
+
+
+        /**
+         * 返回的值的说明：public boolean onLongClick(View v)
+         *参数v：参数v为事件源控件，当长时间按下此控件时才会触发该方法。
+         *返回值：该方法的返回值为一个boolean类型的变量，
+         *当返回true时，表示已经完整地处理了这个事件，并不希望其他的回调方法再次进行处理；
+         *当返回false时，表示并没有完全处理完该事件，更希望其他方法继续对其进行处理。
+         */
 
         holder.mRllayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return mListener.onItemLongClick(v,position);
+                return mListener.onItemLongClick(v,position); //返回数据
             }
         });
 
+        /**
+         * 在列表中添加数据
+         */
         holder.mCBItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 int pos  = (int)buttonView.getTag();
                 if (isChecked){
-                    mCheckStates.put(pos,true);
+                    mCheckStates.put(pos,true); //点击选中，则加入到list表
                 }else {
-                    mCheckStates.delete(pos);
+                    mCheckStates.delete(pos); //未点击选中，则从列表中删除
                 }
             }
         });
