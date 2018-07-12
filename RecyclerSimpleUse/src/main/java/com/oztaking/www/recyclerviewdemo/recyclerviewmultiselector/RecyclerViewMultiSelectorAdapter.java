@@ -1,6 +1,7 @@
 package com.oztaking.www.recyclerviewdemo.recyclerviewmultiselector;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,8 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
     private int screen;
     private GridLayoutManager.LayoutParams mParams;
     private LayoutInflater mLayoutInflater;
+
+    private int mThisPosition;
 
     private List<String> mList = new ArrayList<>();
 
@@ -67,6 +70,13 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
         this.mShowCheckBox = showCheckBox;
     }
 
+    public void setThisPosition(int thisPosition){
+        this.mThisPosition = thisPosition;
+    }
+
+    public int getThisPosition(){
+        return mThisPosition;
+    }
 
     public void setShowRelativityBackground(boolean showRelativity){
         this.mShowRelativity = showRelativity;
@@ -100,19 +110,27 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
             mCheckStates.clear(); //list状态清除
         }
 
-        if (mShowRelativity){
-            holder.mRllayout.setLayoutClick(mRlStates.get(position,false));
+//        if (mShowRelativity){
+//            holder.mRllayout.setLayoutClick(mRlStates.get(position,false));
+//        }else{
+//            holder.mRllayout.setLayoutClick(false);
+//            mRlStates.clear();
+//        }
+
+        if (getThisPosition() == position){
+            holder.mRllayout.setBackgroundColor(Color.BLUE);
         }else{
-            holder.mRllayout.setLayoutClick(false);
-            mRlStates.clear();
+            holder.mRllayout.setBackgroundColor(Color.WHITE);
         }
+
 
 
         //
         holder.mRllayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mShowCheckBox && mShowRelativity){
+//                if (mShowCheckBox && mShowRelativity){
+                    if (mShowCheckBox){
                     //点击之后对是否选中切换显示
                     boolean checked = holder.mCBItem.isChecked();
                     if (checked == true){

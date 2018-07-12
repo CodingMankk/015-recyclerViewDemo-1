@@ -94,6 +94,9 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
                 } else {
                     checkList.add(String.valueOf(pos));
                 }
+
+                mAdapter.setThisPosition(pos);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -103,15 +106,17 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
                 if (!isShowCheck) {  //0
 //                    mBtn.setVisibility(View.GONE);
                     mAdapter.setShowCheckBox(false); //长按不显示CheckBox
-                    mAdapter.setShowRelativityBackground(false);
+//                    mAdapter.setShowRelativityBackground(false);
                     mAdapter.notifyDataSetChanged();
                     checkList.clear();
                 } else {
                     mAdapter.setShowCheckBox(true);
-                    mAdapter.setShowRelativityBackground(true);
+//                    mAdapter.setShowRelativityBackground(true);
                     mAdapter.notifyDataSetChanged();
 //                    mBtn.setVisibility(View.VISIBLE);
                 }
+
+
                 isShowCheck = !isShowCheck; //1
 
                 return false;
