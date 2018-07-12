@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 import com.oztaking.www.recyclerviewdemo.R;
 
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ import java.util.List;
  */
 
 public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<RecyclerViewMultiSelectorAdapter.Holder>{
-
 
     private Context mContext;
     private boolean mShowCheckBox;
@@ -41,6 +40,7 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
      * 防止Checkbox错乱 做setTag getTag操作
      */
     private SparseBooleanArray mCheckStates = new SparseBooleanArray(); //存储的是存储的是CheckBox选中的状态
+    private SparseBooleanArray mRlStates = new SparseBooleanArray(); //存储的是存储的是CheckBox选中的状态
     /**
      * frasco 使用
      */
@@ -73,7 +73,9 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
 
     @Override
     public void onBindViewHolder(final Holder holder, final int position) {
+
         holder.mCBItem.setTag(position);
+        holder.mRllayout.setTag(position);
 
         mParams = (GridLayoutManager.LayoutParams)holder.mRllayout.getLayoutParams();
         mParams.width = screen/3;
@@ -84,10 +86,10 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
          */
         if (mShowCheckBox){ //如果是长按：此值由activity传入设置
             holder.mCBItem.setVisibility(View.VISIBLE);
-//            holder.mCBItem.setChecked(mCheckStates.get(position,false)); //从列表中获取状态并设置状态
+            holder.mCBItem.setChecked(mCheckStates.get(position,false)); //从列表中获取状态并设置状态
         }else{
             holder.mCBItem.setVisibility(View.GONE);
-//            holder.mCBItem.setChecked(false);//设置未选中状态
+            holder.mCBItem.setChecked(false);//设置未选中状态
             mCheckStates.clear(); //list状态清除
         }
 
@@ -98,10 +100,18 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
                 if (mShowCheckBox){
                     //点击之后对是否选中切换显示
                     holder.mCBItem.setChecked(!holder.mCBItem.isChecked());
+                    holder.mRllayout.setLayoutClick(!holder.mRllayout.isLayoutClick());
+                }else{
+                    holder.mRllayout.setLayoutClick(false);
                 }
+
+                holder.mRllayout.setLayoutClick(false);
+//                    holder.mRllayout.setLayoutClick(false);
+
                 mListener.onItemClick(v,position); //返回数据
             }
         });
+
 
 
         /**
@@ -115,6 +125,10 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
         holder.mRllayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+//                holder.mRllayout.setLayoutClick(false);
+                if (!isShowCheckBox()){
+                    holder.mRllayout.setLayoutClick(false);
+                }
                 return mListener.onItemLongClick(v,position); //返回数据
             }
         });
@@ -126,10 +140,12 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 int pos  = (int)buttonView.getTag();
+                Logger.d(buttonView.getParent());
                 if (isChecked){
                     mCheckStates.put(pos,true); //点击选中，则加入到list表
                 }else {
                     mCheckStates.delete(pos); //未点击选中，则从列表中删除
+
                 }
             }
         });
@@ -139,6 +155,12 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
 
     }
 
+
+    @Override
+    public int getItemViewType(int position) {
+//        return super.getItemViewType(position);
+        return position;
+    }
 
     @Override
     public int getItemCount() {
@@ -162,7 +184,8 @@ public class RecyclerViewMultiSelectorAdapter extends RecyclerView.Adapter<Recyc
 
         private SimpleDraweeView mSimpleDraweeView;
         private CheckBox mCBItem;
-        private RelativeLayout mRllayout;
+        private RelativeStateLayout mRllayout;
+//        private RelativeLayout mRllayout;
 
         public Holder(View itemView) {
             super(itemView);

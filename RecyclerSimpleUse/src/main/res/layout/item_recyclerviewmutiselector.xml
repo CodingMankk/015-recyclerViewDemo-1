@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.oztaking.www.recyclerviewdemo.recyclerviewmultiselector.RelativeStateLayout
     android:id="@+id/rl_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:onClick="true"
+    android:background="@drawable/item_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -30,4 +32,4 @@
 
 
 
-</RelativeLayout>
+</com.oztaking.www.recyclerviewdemo.recyclerviewmultiselector.RelativeStateLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <!--未点击的颜色-->
+    <item app:state_click="false"
+        android:drawable="@android:color/transparent"/>
+
+    <!--点击后的颜色-->
+    <item app:state_click="true"
+        android:drawable="@color/colorAccent"/>
+
+</selector>

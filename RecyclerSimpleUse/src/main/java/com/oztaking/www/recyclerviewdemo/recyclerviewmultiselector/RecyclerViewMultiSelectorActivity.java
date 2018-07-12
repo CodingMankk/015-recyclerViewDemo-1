@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.oztaking.www.recyclerviewdemo.R;
@@ -49,7 +48,8 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
 
     private boolean isShowCheck;
 
-    private RelativeLayout mRllayout;
+//    private RelativeLayout mRllayout;
+    private RelativeStateLayout mRllayout;
 
 
     @Override
@@ -138,6 +138,7 @@ public class RecyclerViewMultiSelectorActivity extends Activity{
     private void initView() {
         mRecyclerView = findViewById(R.id.multiSelector_rv);
         mBtn = (Button) findViewById(R.id.Btn);
-        mRllayout = (RelativeLayout) findViewById(R.id.rl_layout);
+//        mRllayout = (RelativeLayout) findViewById(R.id.rl_layout);
+        mRllayout = (RelativeStateLayout) findViewById(R.id.rl_layout);
     }
 }
